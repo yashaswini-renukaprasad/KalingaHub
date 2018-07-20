@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Data;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
 
@@ -11,8 +10,6 @@ namespace KalingaHub.DataAccess
     public class BaseRepository
     {
         readonly string connectionString = ConfigurationManager.ConnectionStrings["KalingaHubDB"].ConnectionString;
-
-        IDbConnection databaseConnection => new SqlConnection(connectionString);
 
         /// <summary>
         /// Executes a query that returns a list of items.
@@ -24,7 +21,7 @@ namespace KalingaHub.DataAccess
         public virtual async Task<IEnumerable<T>> ExecuteQueryAsync<T>(string query, dynamic parameters = null)
         {
             IEnumerable<T> result = null;
-            using (var connection = databaseConnection)
+            using (var connection = new SqlConnection(connectionString))
             {
                 connection.Open();
                 result = await connection.QueryAsync<T>(query, (object)parameters);
@@ -41,7 +38,7 @@ namespace KalingaHub.DataAccess
         public virtual async Task<int> ExecuteQueryAsync(string query, dynamic parameters = null)
         {
             int result;
-            using (var connection = databaseConnection)
+            using (var connection = new SqlConnection(connectionString))
             {
                 connection.Open();
                 result = await connection.ExecuteAsync(query, (object)parameters);
@@ -58,7 +55,7 @@ namespace KalingaHub.DataAccess
         public virtual async Task<object> ExecuteScalarAsync(string query, dynamic parameters = null)
         {
             object result;
-            using (var connection = databaseConnection)
+            using (var connection = new SqlConnection(connectionString))
             {
                 connection.Open();
                 result = await connection.ExecuteScalarAsync(query, (object)parameters);
@@ -76,7 +73,7 @@ namespace KalingaHub.DataAccess
         /// <returns></returns>
         public async Task<Tuple<IEnumerable<TFirst>, IEnumerable<TSecond>>> QueryMultipleAsync<TFirst, TSecond>(string query, dynamic parameters = null)
         {
-            using (var connection = databaseConnection)
+            using (var connection = new SqlConnection(connectionString))
             {
                 connection.Open();
                 using (var reader = await connection.QueryMultipleAsync(query, (object)parameters))
