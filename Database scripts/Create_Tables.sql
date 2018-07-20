@@ -40,7 +40,7 @@ CREATE TABLE [dbo].[Question] (
 
 CREATE TABLE [dbo].[Answer] (
     [Id]          UNIQUEIDENTIFIER NOT NULL,
-    [QID]          UNIQUEIDENTIFIER NOT NULL,
+    [QuestionId]          UNIQUEIDENTIFIER NOT NULL,
     [Description]  NVARCHAR(MAX)    NOT NULL,
     [CreatedDate]  DATETIME             NOT NULL DEFAULT GETDATE(),
     [ModifiedDate] DATETIME             NULL DEFAULT NULL,
@@ -52,7 +52,7 @@ CREATE TABLE [dbo].[Answer] (
 
 CREATE TABLE [dbo].[QuestionTags] (
     [Id]    UNIQUEIDENTIFIER NOT NULL,
-    [TagId] UNIQUEIDENTIFIER NULL,
+    [TagId] UNIQUEIDENTIFIER NOT NULL,
     PRIMARY KEY CLUSTERED ([Id] ASC)
 );
 

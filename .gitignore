@@ -5,3 +5,7 @@
 /Code/API/KalingaHub.Console/bin
 /Code/API/KalingaHub.Console/obj
 /Code/API/.vs
+/Code/API/packages
+/Code/API/KalingaHub.Business/obj
+/Code/API/KalingaHub.Business/bin
+/Code/API/KalingaHub.DataAccess/obj

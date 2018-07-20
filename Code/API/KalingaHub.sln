@@ -5,6 +5,10 @@ VisualStudioVersion = 15.0.27428.2043
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KalingaHub.Console", "KalingaHub.Console\KalingaHub.Console.csproj", "{289AC72E-0AF2-423E-8A9A-12A3CE78D590}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KalingaHub.Business", "KalingaHub.Business\KalingaHub.Business.csproj", "{48A53AF7-007B-40E7-A677-D7ABD6832265}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KalingaHub.DataAccess", "KalingaHub.DataAccess\KalingaHub.DataAccess.csproj", "{A60F216F-0F7A-4F85-AF8B-ABEB9B514D78}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{289AC72E-0AF2-423E-8A9A-12A3CE78D590}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{289AC72E-0AF2-423E-8A9A-12A3CE78D590}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{289AC72E-0AF2-423E-8A9A-12A3CE78D590}.Release|Any CPU.Build.0 = Release|Any CPU
+		{48A53AF7-007B-40E7-A677-D7ABD6832265}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48A53AF7-007B-40E7-A677-D7ABD6832265}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48A53AF7-007B-40E7-A677-D7ABD6832265}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48A53AF7-007B-40E7-A677-D7ABD6832265}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A60F216F-0F7A-4F85-AF8B-ABEB9B514D78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A60F216F-0F7A-4F85-AF8B-ABEB9B514D78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A60F216F-0F7A-4F85-AF8B-ABEB9B514D78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A60F216F-0F7A-4F85-AF8B-ABEB9B514D78}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
