@@ -44,5 +44,15 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TagManager.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\KalingaHub.DataAccess\KalingaHub.DataAccess.csproj">
+      <Project>{A60F216F-0F7A-4F85-AF8B-ABEB9B514D78}</Project>
+      <Name>KalingaHub.DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\KalingaHub.Models\KalingaHub.Models.csproj">
+      <Project>{2E3CA68F-4AD1-4D9E-999C-1F96A5AB24BE}</Project>
+      <Name>KalingaHub.Models</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

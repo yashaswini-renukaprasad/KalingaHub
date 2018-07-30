@@ -1,4 +1,7 @@
-﻿using System;
+﻿using KalingaHub.DataAccess;
+using KalingaHub.DataAccess.Entities;
+using KalingaHub.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +11,48 @@ namespace KalingaHub.Business
 {
     public class QuestionManager
     {
+        readonly QuestionRepository _questionRepository;
+        readonly TagRepository _tagRepository;
+
+        public QuestionManager()
+        {
+            _questionRepository = new QuestionRepository();
+            _tagRepository = new TagRepository();
+        }
+
+        public QuestionModel GetQuestionWithAnswers(Guid questionId)
+        {
+            var question = _questionRepository.GetQuestion(questionId);
+            var answers = _questionRepository.GetAnswers(questionId);
+            var questionModel = new QuestionModel();
+            questionModel.Id = questionId;
+            questionModel.Title = question.Title;
+            questionModel.Tags = _questionRepository.GetQuestionTags(questionId);
+            //questionModel.Answers = answers;
+            questionModel.Description = question.Description;
+            return questionModel;
+        }
+
+        public Response PostQuestion(QuestionModel question)
+        {
+            var id = Guid.NewGuid();
+            var response = _questionRepository.InsertQuestion(id, question);
+            return response;
+        }
+
+        public void EditQuestion(QuestionModel question)
+        {
+            _questionRepository.EditQuestion(question);
+            List<string> originalTags = _questionRepository.GetQuestionTags(question.Id);
+            List<string> newTags = question.Tags;
+
+            List<string> addTags = newTags.Except(originalTags).ToList();
+            List<Guid> addedTagIds = _tagRepository.GetTags(addTags).Select(x => x.Id).ToList();
+            _questionRepository.AddQuestionTags(addedTagIds, question.Id);
+
+            List<string> removeTags = originalTags.Except(newTags).ToList();
+            List<Guid> removeIds = _tagRepository.GetTags(removeTags).Select(x => x.Id).ToList();
+            _questionRepository.RemoveQuestionTags(removeIds, question.Id);
+        }
     }
 }

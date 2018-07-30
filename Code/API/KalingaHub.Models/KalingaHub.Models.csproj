@@ -4,16 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{289AC72E-0AF2-423E-8A9A-12A3CE78D590}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>KalingaHub.Console</RootNamespace>
-    <AssemblyName>KalingaHub.Console</AssemblyName>
+    <ProjectGuid>{2E3CA68F-4AD1-4D9E-999C-1F96A5AB24BE}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>KalingaHub.Models</RootNamespace>
+    <AssemblyName>KalingaHub.Models</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,7 +22,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -42,22 +40,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="AnswerModel.cs" />
+    <Compile Include="QuestionModel.cs" />
+    <Compile Include="Response.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="QuestionController.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\KalingaHub.Business\KalingaHub.Business.csproj">
-      <Project>{48A53AF7-007B-40E7-A677-D7ABD6832265}</Project>
-      <Name>KalingaHub.Business</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\KalingaHub.Models\KalingaHub.Models.csproj">
-      <Project>{2E3CA68F-4AD1-4D9E-999C-1F96A5AB24BE}</Project>
-      <Name>KalingaHub.Models</Name>
-    </ProjectReference>
+    <Compile Include="SearchFilter.cs" />
+    <Compile Include="SearchParameters.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
