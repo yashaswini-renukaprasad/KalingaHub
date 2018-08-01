@@ -14,10 +14,14 @@ namespace KalingaHub.Business
         readonly QuestionRepository _questionRepository;
         readonly TagRepository _tagRepository;
 
+        readonly TagManager _tagManager;
+
         public QuestionManager()
         {
             _questionRepository = new QuestionRepository();
             _tagRepository = new TagRepository();
+
+            _tagManager = new TagManager();
         }
 
         public QuestionModel GetQuestionWithAnswers(Guid questionId)
@@ -35,9 +39,30 @@ namespace KalingaHub.Business
 
         public Response PostQuestion(QuestionModel question)
         {
-            var id = Guid.NewGuid();
-            var response = _questionRepository.InsertQuestion(id, question);
-            return response;
+            Response response = new Response();
+            try
+            {
+                var id = Guid.NewGuid();
+                response = _questionRepository.InsertQuestion(id, question);
+                System.Console.WriteLine(response.IsSuccess);
+                if (response.IsSuccess)
+                {
+                    var newTags = question.Tags;        //get tagnames from the question
+                    var existingTagNames = _tagRepository.GetTags(newTags).Select(x => x.Name).ToList();        //return tagnames of the existing tags
+                    var addTags = newTags.Except(existingTagNames).ToList();        //get tagnames that doesnot exist in tag
+                    var tagIds = _tagManager.AddTags(addTags);          //add tags to tag and get tagids of new tags
+                    response = _questionRepository.AddQuestionTags(tagIds, id);         //add tagids and questionid to the questiontag
+                    response.Message = "Question and Tags Successfully Posted";         //setting message in response
+                }
+                return response;
+            }
+            catch (Exception e)
+            {
+                response.IsSuccess = false;
+                response.Message = e.Message;
+
+                return response;
+            }
         }
 
         public void EditQuestion(QuestionModel question)
