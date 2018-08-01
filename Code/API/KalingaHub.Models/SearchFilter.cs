@@ -11,7 +11,7 @@ namespace KalingaHub.Models
         private string tags;
 
         public String Keyword { get; set; }
-        public Guid Categories { get; set; }
+        public Guid? Categories { get; set; }
         public List<string> TagList { get; set; }
         public string Tags
         {
