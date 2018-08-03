@@ -32,13 +32,23 @@ namespace KalingaHub.DataAccess
         /// </summary>
         /// <param name="questionId"></param>
         /// <returns></returns>
-        public List<Answer> GetAnswers(Guid questionId)
+        public List<AnswerModel> GetAnswers(Guid questionId)
         {
             using (var db = new KalingaHubDBModel())
             {
                 var answers = (from q in db.Answers
-                                     where q.Id == questionId //&& q.IsActive == true
-                               select q)?.ToList<Answer>();
+                               where q.Id == questionId //&& q.IsActive == true
+                               select new AnswerModel
+                               {
+                                   Id = q.Id,
+                                   QuestionId=q.QuestionId,
+                                   Description=q.Description,
+                                   CreatedDate=q.CreatedDate,
+                                   ModifiedDate=q.ModifiedDate,
+                                   CreatedBy=q.CreatedBy
+                               })
+                               ?.ToList<AnswerModel>();
+
                 return answers;
             }
         }

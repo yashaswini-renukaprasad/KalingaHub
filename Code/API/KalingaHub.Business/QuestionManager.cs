@@ -28,7 +28,7 @@ namespace KalingaHub.Business
             questionModel.Id = questionId;
             questionModel.Title = question.Title;
             questionModel.Tags = _questionRepository.GetQuestionTags(questionId);
-            //questionModel.Answers = answers;
+            questionModel.Answers =answers;
             questionModel.Description = question.Description;
             return questionModel;
         }

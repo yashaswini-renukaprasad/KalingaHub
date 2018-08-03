@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KalingaHub.DataAccess", "Ka
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KalingaHub.Models", "KalingaHub.Models\KalingaHub.Models.csproj", "{2E3CA68F-4AD1-4D9E-999C-1F96A5AB24BE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KalingaHub.WebAPI", "KalingaHub.WebAPI\KalingaHub.WebAPI.csproj", "{354602F1-7E0E-4822-8413-BF8510556C1F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{2E3CA68F-4AD1-4D9E-999C-1F96A5AB24BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2E3CA68F-4AD1-4D9E-999C-1F96A5AB24BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2E3CA68F-4AD1-4D9E-999C-1F96A5AB24BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{354602F1-7E0E-4822-8413-BF8510556C1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{354602F1-7E0E-4822-8413-BF8510556C1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{354602F1-7E0E-4822-8413-BF8510556C1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{354602F1-7E0E-4822-8413-BF8510556C1F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
