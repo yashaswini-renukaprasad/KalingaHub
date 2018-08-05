@@ -5,10 +5,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Http;
 
-namespace KalingaHub.Console
+namespace KalingaHub.WebAPI.Controllers
 {
-    public class QuestionController
+    public class QuestionController:ApiController
     {
         readonly QuestionManager _questionManager;
 

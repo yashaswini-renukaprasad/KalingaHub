@@ -22,7 +22,12 @@ namespace KalingaHub.Business
 
         public QuestionModel GetQuestionWithAnswers(Guid questionId)
         {
+           
             var question = _questionRepository.GetQuestion(questionId);
+            if(question==null)
+            {
+                return null;
+            }
             var answers = _questionRepository.GetAnswers(questionId);
             var questionModel = new QuestionModel();
             questionModel.Id = questionId;
