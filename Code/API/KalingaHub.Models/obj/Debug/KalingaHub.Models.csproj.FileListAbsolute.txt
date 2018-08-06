@@ -1,6 +1,0 @@
-D:\ProjectKalinga\KalingaHub\Code\API\KalingaHub.Models\bin\Debug\KalingaHub.Models.dll
-D:\ProjectKalinga\KalingaHub\Code\API\KalingaHub.Models\bin\Debug\KalingaHub.Models.pdb
-D:\ProjectKalinga\KalingaHub\Code\API\KalingaHub.Models\obj\Debug\KalingaHub.Models.csprojAssemblyReference.cache
-D:\ProjectKalinga\KalingaHub\Code\API\KalingaHub.Models\obj\Debug\KalingaHub.Models.csproj.CoreCompileInputs.cache
-D:\ProjectKalinga\KalingaHub\Code\API\KalingaHub.Models\obj\Debug\KalingaHub.Models.dll
-D:\ProjectKalinga\KalingaHub\Code\API\KalingaHub.Models\obj\Debug\KalingaHub.Models.pdb
