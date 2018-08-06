@@ -1,5 +1,4 @@
 ﻿using KalingaHub.DataAccess;
-using KalingaHub.DataAccess.Entities;
 using KalingaHub.Models;
 using System;
 using System.Collections.Generic;
@@ -39,20 +38,49 @@ namespace KalingaHub.Business
             var response = _questionRepository.InsertQuestion(id, question);
             return response;
         }
-
-        public void EditQuestion(QuestionModel question)
+        /// <summary>
+        /// EditQuestion method modifies the Question,adds new tags and removes unwanted tags
+        /// </summary>
+        /// <param name="question"></param>
+        /// <returns></returns>
+        public Response EditQuestion(QuestionModel question)
         {
-            _questionRepository.EditQuestion(question);
-            List<string> originalTags = _questionRepository.GetQuestionTags(question.Id);
-            List<string> newTags = question.Tags;
+            var response = new Response();
+            try
+            {
 
-            List<string> addTags = newTags.Except(originalTags).ToList();
-            List<Guid> addedTagIds = _tagRepository.GetTags(addTags).Select(x => x.Id).ToList();
-            _questionRepository.AddQuestionTags(addedTagIds, question.Id);
+                response = _questionRepository.EditQuestion(question);
+                if (response.IsSuccess)
+                {
+                    List<string> originalTags = _questionRepository.GetQuestionTags(question.Id);
+                    List<string> newTags = question.Tags;
 
-            List<string> removeTags = originalTags.Except(newTags).ToList();
-            List<Guid> removeIds = _tagRepository.GetTags(removeTags).Select(x => x.Id).ToList();
-            _questionRepository.RemoveQuestionTags(removeIds, question.Id);
+                    List<string> addTags = newTags.Except(originalTags).ToList();
+                    _tagRepository.AddTags(addTags);
+                    List<Guid> addedTagIds = _tagRepository.GetTags(addTags).Select(x => x.Id).ToList();
+                    var res = _questionRepository.AddQuestionTags(addedTagIds, question.Id);
+                    List<string> removeTags = originalTags.Except(newTags).ToList();
+                    List<Guid> removeIds = _tagRepository.GetTags(removeTags).Select(x => x.Id).ToList();
+                    var res1 = _questionRepository.RemoveQuestionTags(removeIds, question.Id);
+                    response.IsSuccess = true;
+                    response.Message = "Question Edited Successfully..";
+                    return response;
+                }
+                else
+                {
+                    
+                    ///response.Message = "something went wrong..";
+                    return response;
+                }
+            }
+            catch (Exception e)
+            {
+                response.IsSuccess = false;
+                response.Message = e.ToString();
+                return response;
+            }
+
+
         }
     }
 }

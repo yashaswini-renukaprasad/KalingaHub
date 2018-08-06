@@ -32,15 +32,19 @@ namespace KalingaHub.Console
             var response = _questionManager.PostQuestion(question);
             return response;
         }
-
+        /// <summary>
+        /// Edits question by taking control from manager
+        /// </summary>
+        /// <param name="question"></param>
+        /// <returns></returns>
         public Response Put(QuestionModel question)
         {
             if (question.Id == Guid.Empty)
             {
-                //return new Response { IsSuccess = false, Message = "Invalid input" };
-                return null;
+               return new Response { IsSuccess = false, Message = "Invalid input" };
+                
             }
-            var response = _questionManager.PostQuestion(question);
+            var response = _questionManager.EditQuestion(question);
             return response;
         }
     }

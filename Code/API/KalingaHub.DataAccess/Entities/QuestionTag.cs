@@ -6,6 +6,7 @@ namespace KalingaHub.DataAccess.Entities
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
+    [Table("QuestionTag")]
     public partial class QuestionTag
     {
         [Key]

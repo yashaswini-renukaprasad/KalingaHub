@@ -3,10 +3,6 @@ using KalingaHub.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static KalingaHub.Models.SearchParameters;
-
 namespace KalingaHub.DataAccess
 {
     public class QuestionRepository
@@ -21,8 +17,8 @@ namespace KalingaHub.DataAccess
             using (var db = new KalingaHubDBModel())
             {
                 var question = (from q in db.Questions
-                                      where q.Id == questionId && q.IsActive == true
-                                      select q).SingleOrDefault();
+                                where q.Id == questionId && q.IsActive == true
+                                select q).SingleOrDefault();
                 return question;
             }
         }
@@ -37,7 +33,7 @@ namespace KalingaHub.DataAccess
             using (var db = new KalingaHubDBModel())
             {
                 var answers = (from q in db.Answers
-                                     where q.Id == questionId //&& q.IsActive == true
+                               where q.Id == questionId //&& q.IsActive == true
                                select q)?.ToList<Answer>();
                 return answers;
             }
@@ -76,18 +72,42 @@ namespace KalingaHub.DataAccess
             }
         }
 
-        public void EditQuestion(QuestionModel questionModel)
+        /// <summary>
+        /// Edits the question and returns response 
+        /// </summary>
+        /// <param name="questionModel"></param>
+        /// <returns></returns>
+        public Response EditQuestion(QuestionModel questionModel)
         {
-            using (var db = new KalingaHubDBModel())
+            var response = new Response();
+            try
             {
-                var question = db.Questions.Single(q => q.Id == questionModel.Id && q.IsActive);
-                question.ModifiedDate = DateTime.Now;
-                question.Title = questionModel.Title;
-                question.Description = questionModel.Description;
-                db.SaveChanges();
+                using (var db = new KalingaHubDBModel())
+                {
+                    var question = db.Questions.Single(q => q.Id == questionModel.Id);
+                    question.ModifiedDate = DateTime.Now;
+                    question.Title = questionModel.Title;
+                    question.Description = questionModel.Description;
+                    db.SaveChanges();
+                }
             }
+            catch (Exception e)
+            {
+                response.IsSuccess = false;
+                response.Message = e.Message.ToString();
+                return response;
+            }
+
+            response.IsSuccess = true;
+            response.Message = "Question Edited Successfully.";
+            return response;
         }
 
+        /// <summary>
+        /// returns a list of string type question tags for question id
+        /// </summary>
+        /// <param name="questionId"></param>
+        /// <returns></returns>
         public List<string> GetQuestionTags(Guid questionId)
         {
             List<string> questionTags = new List<string>();
@@ -106,30 +126,68 @@ namespace KalingaHub.DataAccess
             }
             return questionTags;
         }
-
-        public void AddQuestionTags(List<Guid> tagIds, Guid questionId)
+        /// <summary>
+        /// Inserts question tags in QuestionTags table
+        /// </summary>
+        /// <param name="tagIds"></param>
+        /// <param name="questionId"></param>
+        /// <returns></returns>
+        public Response AddQuestionTags(List<Guid> tagIds, Guid questionId)
         {
-            using (var db = new KalingaHubDBModel())
+            var response = new Response();
+            try
             {
-                foreach (var tagId in tagIds)
+                using (var db = new KalingaHubDBModel())
                 {
-                    QuestionTag questionTag = new QuestionTag { QuestionId = questionId, TagId = tagId };
-                    db.QuestionTags.Add(questionTag);
+                    foreach (var tagId in tagIds)
+                    {
+                        QuestionTag questionTag = new QuestionTag { QuestionId = questionId, TagId = tagId };
+                        db.QuestionTags.Add(questionTag);
+                    }
+                    db.SaveChanges();
                 }
-                db.SaveChanges();
             }
-        }
-
-        public void RemoveQuestionTags(List<Guid> tagIds, Guid questionId)
-        {
-            using (var db = new KalingaHubDBModel())
+            catch (Exception e)
             {
-                var questionTags = (from qt in db.QuestionTags
-                              where tagIds.Contains(qt.TagId) && qt.QuestionId == questionId
-                              select qt)?.ToList();
-                db.QuestionTags.RemoveRange(questionTags);
-                db.SaveChanges();
+                response.IsSuccess = false;
+                response.Message = e.ToString();
+                return response;
+
             }
+            response.IsSuccess = true;
+            response.Message = "QuestionTags Successfully Posted";
+            return response;
+        }
+        /// <summary>
+        /// Removes QuestionTags from QuestionTags table
+        /// </summary>
+        /// <param name="tagIds"></param>
+        /// <param name="questionId"></param>
+        /// <returns></returns>
+        public Response RemoveQuestionTags(List<Guid> tagIds, Guid questionId)
+        {
+            var response = new Response();
+            try
+            {
+                using (var db = new KalingaHubDBModel())
+                {
+                    var questionTags = (from qt in db.QuestionTags
+                                        where tagIds.Contains(qt.TagId) && qt.QuestionId == questionId
+                                        select qt)?.ToList();
+                    db.QuestionTags.RemoveRange(questionTags);
+                    db.SaveChanges();
+                }
+            }
+            catch (Exception e)
+            {
+                response.IsSuccess = false;
+                response.Message = e.ToString();
+                return response;
+            }
+
+            response.IsSuccess = true;
+            response.Message = "Questiontags removed..";
+            return response;
         }
 
         public IEnumerable<QuestionModel> Search(SearchParameters searchParameters)
@@ -174,7 +232,7 @@ namespace KalingaHub.DataAccess
                         )
                     ;
                 }
-                if (searchParameters.OrderBy == E_SEARCHORDER.ORDER_LATEST)
+                if (searchParameters.OrderBy == SearchParameters.E_SEARCHORDER.ORDER_LATEST)
                     query = query.OrderByDescending(x => x.CreatedDate);
                 else
                 {

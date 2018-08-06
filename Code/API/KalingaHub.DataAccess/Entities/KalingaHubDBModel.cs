@@ -8,7 +8,7 @@ namespace KalingaHub.DataAccess.Entities
     public partial class KalingaHubDBModel : DbContext
     {
         public KalingaHubDBModel()
-            : base("name=KalingaHubDatabase")
+            : base("name=KalingaHubDBModel")
         {
         }
 

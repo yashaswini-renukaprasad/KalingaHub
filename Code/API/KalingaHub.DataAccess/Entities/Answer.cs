@@ -11,7 +11,7 @@ namespace KalingaHub.DataAccess.Entities
     {
         public Guid Id { get; set; }
 
-        public Guid QuestionId { get; set; }
+        public Guid QuestionID { get; set; }
 
         [Required]
         public string Description { get; set; }
