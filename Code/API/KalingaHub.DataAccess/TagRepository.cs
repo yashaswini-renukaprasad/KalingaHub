@@ -9,22 +9,33 @@ namespace KalingaHub.DataAccess
 {
     public class TagRepository
     {
-        public void AddTags(List<string> tags)
+        public List<Guid> AddTags(List<string> tags)
         {
-            using (var db = new KalingaHubDBModel())
+            try
             {
-                var qry = from t in db.Tags
-                          select t.Name;
-                foreach (var obj in tags)
-                {
-                    if (!qry.Contains(obj))
-                    {
-                        Tag tag = new Tag { Id = Guid.NewGuid(), Name = obj };
-                        db.Tags.Add(tag);
-                    }
-                }
+                var tagIds = new List<Guid>();
 
-                db.SaveChanges();
+                using (var db = new KalingaHubDBModel())
+                {
+                    var qry = from t in db.Tags
+                              select t.Name;
+                    foreach (var obj in tags)
+                    {
+                        if (!qry.Contains(obj))
+                        {
+                            Tag tag = new Tag { Id = Guid.NewGuid(), Name = obj };
+                            tagIds.Add(tag.Id);
+                            db.Tags.Add(tag);
+                        }
+                    }
+
+                    db.SaveChanges();
+                    return tagIds;
+                }
+            }
+            catch (Exception e)
+            {
+                return null;
             }
         }
 

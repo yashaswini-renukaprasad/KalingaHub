@@ -16,9 +16,12 @@ namespace KalingaHub.Business
             _tagRepository = new TagRepository();
         }
 
-        public void AddTags(List<string> tags)
+        public List<Guid> AddTags(List<string> tags)
         {
-            _tagRepository.AddTags(tags);
+            var tagIds = _tagRepository.AddTags(tags);
+            return tagIds;
         }
+
+        
     }
 }

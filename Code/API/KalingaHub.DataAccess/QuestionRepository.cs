@@ -107,17 +107,30 @@ namespace KalingaHub.DataAccess
             return questionTags;
         }
 
-        public void AddQuestionTags(List<Guid> tagIds, Guid questionId)
+        public Response AddQuestionTags(List<Guid> tagIds, Guid questionId)
         {
-            using (var db = new KalingaHubDBModel())
+            Response response = new Response();
+            try
             {
-                foreach (var tagId in tagIds)
+                using (var db = new KalingaHubDBModel())
                 {
-                    QuestionTag questionTag = new QuestionTag { QuestionId = questionId, TagId = tagId };
-                    db.QuestionTags.Add(questionTag);
+                    foreach (var tagId in tagIds)
+                    {
+                        QuestionTag questionTag = new QuestionTag { QuestionId = questionId, TagId = tagId };
+                        db.QuestionTags.Add(questionTag);
+                    }
+                    db.SaveChanges();
+                    response.IsSuccess = true;
                 }
-                db.SaveChanges();
+                
             }
+            catch (Exception e)
+            {
+                response.IsSuccess = false;
+                response.Message = e.Message;
+                return response;
+            }
+            return response;
         }
 
         public void RemoveQuestionTags(List<Guid> tagIds, Guid questionId)
