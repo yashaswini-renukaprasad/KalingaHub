@@ -100,22 +100,17 @@ namespace KalingaHub.DataAccess
 
         public List<string> GetQuestionTags(Guid questionId)
         {
-            List<string> questionTags = new List<string>();
+            List<String> QuestionTags = null;
             using (var db = new KalingaHubDBModel())
             {
-                var qry = from t in db.QuestionTags
-                          where t.QuestionId == questionId
-                          select t.TagId;
-                foreach (var obj in qry)
-                {
-                    var qry1 = (from t in db.Tags
-                                where t.Id == obj
-                                select t.Name).FirstOrDefault();
-                    questionTags.Add(qry1);
-                }
+                 QuestionTags = (from t in db.QuestionTags join r in db.Tags
+                          on t.TagId equals r.Id
+                          where t.QuestionId==questionId
+                          select r.Name).ToList<String>();
             }
-            return questionTags;
+            return QuestionTags;
         }
+
 
         public void AddQuestionTags(List<Guid> tagIds, Guid questionId)
         {
@@ -217,6 +212,19 @@ namespace KalingaHub.DataAccess
                 }
                 //return query.ToList();
                 return null;
+            }
+        }
+        public CategoryModel GetQuestionCategory(Guid QuestionId)
+        {
+            using (var db = new KalingaHubDBModel())
+            {
+                var query = (from q in db.Questions join c in db.Categories 
+                             on q.CategoryId equals c.Id 
+                            where q.Id == QuestionId
+                            select new CategoryModel {
+                            Id=c.Id,
+                            Name=c.Name}).FirstOrDefault();
+                return query;
             }
         }
     }

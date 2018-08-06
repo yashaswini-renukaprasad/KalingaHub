@@ -28,13 +28,21 @@ namespace KalingaHub.Business
             {
                 return null;
             }
-            var answers = _questionRepository.GetAnswers(questionId);
             var questionModel = new QuestionModel();
+            var answers = _questionRepository.GetAnswers(questionId);
+            if (answers == null)
+                questionModel.Answers = null; 
+            else
+            {
+               questionModel.Answers = answers;
+            }
+            
             questionModel.Id = questionId;
             questionModel.Title = question.Title;
             questionModel.Tags = _questionRepository.GetQuestionTags(questionId);
-            questionModel.Answers =answers;
             questionModel.Description = question.Description;
+            questionModel.Tags = _questionRepository.GetQuestionTags(questionId);
+            questionModel.Category = _questionRepository.GetQuestionCategory(questionId);
             return questionModel;
         }
 
