@@ -146,7 +146,7 @@ namespace KalingaHub.DataAccess
         }
 
         public IEnumerable<QuestionModel> Search(SearchParameters searchParameters)
-        {
+        { 
             using (var db = new KalingaHubDBModel())
             {
                 IQueryable<Question> query = null;
@@ -187,39 +187,41 @@ namespace KalingaHub.DataAccess
                         )
                     ;
                 }
+
+                // Join with Upvote table and return resulted data.
+                var questionsWithUpvote = query
+                    .Select(x =>
+                       new QuestionModel
+                       {
+                           Id = x.Id,
+                           CategoryId = x.CategoryId,
+                           CreatedBy = x.CreatedBy,
+                           CreatedDate = x.CreatedDate,
+                           Description = x.Description,
+                           IsActive = x.IsActive,
+                           ModifiedDate = x.ModifiedDate,
+                           Title = x.Title,
+                           UpvoteCount =
+                               (from upvotes in db.Upvotes
+                                where upvotes.ResourceId == x.Id
+                                select upvotes)
+                               .Count()
+                       });
                 if (searchParameters.OrderBy == E_SEARCHORDER.ORDER_LATEST)
-                    query = query.OrderByDescending(x => x.CreatedDate);
+                {
+                    questionsWithUpvote =
+                        questionsWithUpvote
+                        .OrderByDescending(x => x.CreatedDate);
+                }
                 else
                 {
-                    var upvote = db.Upvotes.GroupBy(x => x.ResourceId)
-                       .Select(x => new { x.Key, count = x.Count() });
-
-                    var questionsWithUpvote = query
-                        .Select(x =>
-                           new QuestionModel
-                           {
-                               Id = x.Id,
-                               CategoryId = x.CategoryId,
-                               CreatedBy = x.CreatedBy,
-                               CreatedDate = x.CreatedDate,
-                               Description = x.Description,
-                               IsActive = x.IsActive,
-                               ModifiedDate = x.ModifiedDate,
-                               Title = x.Title,
-                               UpvoteCount =
-                                   (from upvotes2 in db.Upvotes
-                                    where upvotes2.ResourceId == x.Id
-                                    select upvotes2)
-                                   .ToList()
-                                   .Count()
-                           })
+                    questionsWithUpvote = 
+                        questionsWithUpvote
                         .OrderByDescending(c => c.UpvoteCount)
                         .ThenByDescending(x => x.CreatedDate)
-                    ;
-                    return questionsWithUpvote.ToList();
-                }
-                //return query.ToList();
-                return null;
+                    ; 
+                } 
+                return questionsWithUpvote.ToList();
             }
         }
     }
