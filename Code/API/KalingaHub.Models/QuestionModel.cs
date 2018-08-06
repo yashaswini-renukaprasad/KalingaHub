@@ -22,7 +22,7 @@ namespace KalingaHub.Models
         /// <summary>
         /// Category of the Question
         /// </summary>
-        public string Category { get; set; }
+        public CategoryModel Category { get; set; }
         /// <summary>
         /// Tag list of the Question
         /// </summary>
